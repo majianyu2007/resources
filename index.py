@@ -19,7 +19,7 @@ def generate_index_html(directory):
     # 排序目录内容，首先显示子目录，然后是文件
     contents.sort(key=lambda item: (not os.path.isdir(os.path.join(directory, item)), item.lower()))
 
-    with open(os.path.join(directory, 'index.html'), 'w') as index_file:
+    with open(os.path.join(directory, 'index.html'), 'w', encoding='utf-8') as index_file:
         index_file.write('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n')
         index_file.write('<html>\n')
         index_file.write(' <head>\n')
