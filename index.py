@@ -40,8 +40,7 @@ def generate_index_html(directory):
         
         # 添加返回父目录的链接
         if directory != current_directory:
-            parent_dir = os.path.dirname(directory)
-            parent_link = f'<a href="{parent_dir}">Parent Directory</a>'
+            parent_link = f'<a href=javascript:history.back(-1);>Parent Directory</a>'
             index_file.write(f'<tr><td>{parent_link}</td><td align="right">-</td><td align="right">-</td></tr>\n')
 
         for item in contents:
