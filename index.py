@@ -16,6 +16,9 @@ def generate_index_html(directory):
     # 获取目录下的文件和子目录
     contents = os.listdir(directory)
 
+    # 排除所有名称带“.”的文件夹
+    contents = [item for item in contents if not item.startswith('.')]
+    
     # 排序目录内容，首先显示子目录，然后是文件
     contents.sort(key=lambda item: (not os.path.isdir(os.path.join(directory, item)), item.lower()))
 
@@ -34,6 +37,12 @@ def generate_index_html(directory):
         else:
             index_file.write(f'<h1>Index of /{directory.split(os.sep)[-1]}</h1>\n')
         index_file.write('<table><tr><th>Name</th><th>Last modified</th><th>Size</th></tr><tr><th colspan="3"><hr></th></tr>\n')
+        
+        # 添加返回父目录的链接
+        if directory != current_directory:
+            parent_dir = os.path.dirname(directory)
+            parent_link = f'<a href="{parent_dir}">Parent Directory</a>'
+            index_file.write(f'<tr><td>{parent_link}</td><td align="right">-</td><td align="right">-</td></tr>\n')
 
         for item in contents:
             if item != 'index.py' and item != 'index.html':  # 排除 index.py 和 index.html
@@ -63,4 +72,5 @@ generate_index_html(current_directory)
 # 遍历当前目录下的所有子目录并生成index.html
 for root, dirs, files in os.walk(current_directory):
     for directory in dirs:
-        generate_index_html(os.path.join(root, directory))
+        if not directory.startswith('.'):
+            generate_index_html(os.path.join(root, directory))
